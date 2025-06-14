@@ -13,9 +13,8 @@
                   'message' => $message,
               ], $statusCode);
           }
-          return response()->json([
-              'status' => $type,
-              'data' => $data
-          ], $statusCode);
+          
+          return response()->json(
+              array_merge(['status' => $type], $data), $statusCode);
       }
   }

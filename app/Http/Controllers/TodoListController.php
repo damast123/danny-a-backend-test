@@ -40,6 +40,15 @@ class TodoListController extends Controller
       return Excel::download(new TodoListsExport($filters), "todo_lists_{$date}.xls", \Maatwebsite\Excel\Excel::XLS);
     }
 
+    public function chartData(Request $request)
+    {
+        $type = $request->only(['type']);
+
+        $data = $this->todoListService->getChartData($type);
+
+        return $this->returnResponse->ResponseMessage($data, 200,'','success');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -64,7 +73,7 @@ class TodoListController extends Controller
 
         $todo = TodoList::create($validated);
 
-        return $this->returnResponse->ResponseMessage($todo, 201, '', 'success');
+        return $this->returnResponse->ResponseMessage(["data" => $todo], 201, '', 'success');
     }
 
     /**
