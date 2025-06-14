@@ -79,6 +79,7 @@ This application use to be REST API. This helps mix and match any backend with a
   GET /api/todo-lists/export-excel
 ```
 | Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
 | title | string | this will set filter title |
 | assignee | string | this will set filter assignee |
 | due_start | string | this will set filter due_start |
@@ -95,6 +96,7 @@ This application use to be REST API. This helps mix and match any backend with a
   GET /api/todo-lists/export-excel
 ```
 | Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
 | type | string | this will set filter type and have 3 type to filter(status, priority and, assignee) |
 | |  |  |
 
