@@ -1,252 +1,185 @@
-# danny-a-backend-test
+# ![danny-a-backend-test](logo.png)
 
-[![forthebadge](http://forthebadge.com/images/badges/made-with-ruby.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+[![Build Status](https://img.shields.io/travis/gothinkster/laravel-realworld-example-app/master.svg)](https://travis-ci.org/gothinkster/laravel-realworld-example-app) [![Gitter](https://img.shields.io/gitter/room/realworld-dev/laravel.svg)](https://gitter.im/realworld-dev/laravel) [![GitHub stars](https://img.shields.io/github/stars/gothinkster/laravel-realworld-example-app.svg)](https://github.com/gothinkster/laravel-realworld-example-app/stargazers) [![GitHub license](https://img.shields.io/github/license/gothinkster/laravel-realworld-example-app.svg)](https://raw.githubusercontent.com/gothinkster/laravel-realworld-example-app/master/LICENSE)
 
-[![Gem Version](https://badge.fury.io/rb/colorls.svg)](https://badge.fury.io/rb/colorls)
-[![CI](https://github.com/athityakumar/colorls/actions/workflows/ruby.yml/badge.svg)](https://github.com/athityakumar/colorls/actions/workflows/ruby.yml)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields)](http://makeapullrequest.com)
+> ### Example Laravel codebase containing real world examples (CRUD, auth, advanced patterns and more) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 
-A Ruby script that colorizes the `ls` output with color and icons. Here are the screenshots of working example on an iTerm2 terminal (Mac OS), `oh-my-zsh` with `powerlevel9k` theme and `powerline nerd-font + awesome-config` font with the `Solarized Dark` color theme.
+This repo is functionality complete — PRs and issues welcome!
 
- ![image](https://user-images.githubusercontent.com/17109060/32149040-04f3125c-bd25-11e7-8003-66fd29bc18d4.png)
+----------
 
-*If you're interested in knowing the powerlevel9k configuration to get this prompt, have a look at [this gist](https://gist.github.com/athityakumar/1bd5e9e24cd2a1891565573a893993eb).*
+# Getting started
 
-# Table of contents
+## Installation
 
-- [Usage](#usage)
-  - [Flags](#flags)
-    - `-1`
-    - `-a`   (or) `--all`
-    - `-A`   (or) `--almost-all`
-    - `-d`   (or) `--dirs`
-    - `-f`   (or) `--files`
-    - `--help`
-    - `-l`   (or) `--long`
-    - `--report`
-    - `--tree` (or) `--tree=[DEPTH]`
-    - `--gs` (or) `--git-status`
-    - `--sd` (or) `--sort-dirs` or `--group-directories-first`
-    - `--sf` (or) `--sort-files`
-    - `-t`
-  - [Combination of flags](#combination-of-flags)
-- [Installation](#installation)
-- [Recommended configurations](#recommended-configurations)
-- [Custom configurations](#custom-configurations)
-- [Updating](#updating)
-- [Uninstallation](#uninstallation)
-- [Contributing](#contributing)
-- [License](#license)
+Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/5.4/installation#installation)
 
-# Usage
+Alternative installation is possible without local dependencies relying on [Docker](#docker). 
 
-[(Back to top)](#table-of-contents)
+Clone the repository
 
-Man pages have been added. Checkout `man colorls`.
+    git clone git@github.com:gothinkster/laravel-realworld-example-app.git
 
-### Flags
+Switch to the repo folder
 
-- With `-1` : Lists one entry per line
+    cd laravel-realworld-example-app
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149062-4f0547ca-bd25-11e7-98b6-587467379704.png)
+Install all the dependencies using composer
 
-- With `-a` (or) `--all` : Does not ignore entries starting with '.'
+    composer install
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149045-182eb39e-bd25-11e7-83d4-897cb14bcff3.png)
+Copy the example env file and make the required configuration changes in the .env file
 
-- With `-A` (or) `--almost-all` : Does not ignore entries starting with '.', except `./` and `../`
+    cp .env.example .env
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149046-1ef7664e-bd25-11e7-8bd9-bfc3c8b27b74.png)
+Generate a new application key
 
-- With `-d` (or) `--dirs` : Shows only directories
+    php artisan key:generate
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149066-5f842aa8-bd25-11e7-9bf0-23313b717182.png)
+Generate a new JWT authentication secret key
 
-- With `-f` (or) `--files` : Shows only files
+    php artisan jwt:generate
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149065-5a27c9d4-bd25-11e7-9a2b-fd731d76a058.png)
+Run the database migrations (**Set the database connection in .env before migrating**)
 
-- With `--help` : Prints a very helpful help menu
+    php artisan migrate
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149096-cf2cf5b0-bd25-11e7-84b6-909d79099c98.png)
+Start the local development server
 
-- With `-l` (or) `--long` : Shows in long listing format
+    php artisan serve
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149049-2a63ae48-bd25-11e7-943c-5ceed25bd693.png)
+You can now access the server at http://localhost:8000
 
-- With `--report` : Shows brief report about number of files and folders shown
+**TL;DR command list**
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149082-96a83fec-bd25-11e7-9081-7f77e4c90e90.png)
+    git clone git@github.com:gothinkster/laravel-realworld-example-app.git
+    cd laravel-realworld-example-app
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    php artisan jwt:generate 
+    
+**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
 
-- With `--tree` (or) `--tree=[DEPTH]` : Shows tree view of the directory with the specified depth (default 3)
+    php artisan migrate
+    php artisan serve
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149051-32e596e4-bd25-11e7-93a9-5e50c8d2bb19.png)
+## Database seeding
 
-- With `--gs` (or) `--git-status` : Shows git status for each entry
+**Populate the database with seed data with relationships which includes users, articles, comments, tags, favorites and follows. This can help you to quickly start testing the api or couple a frontend and start using it with ready content.**
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149075-7a1a1954-bd25-11e7-964e-1adb173aa2b9.png)
+Open the DummyDataSeeder and set the property values as per your requirement
 
-- With `--sd` (or) `--sort-dirs` or `--group-directories-first` : Shows directories first, followed by files
+    database/seeds/DummyDataSeeder.php
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149068-65117fc0-bd25-11e7-8ada-0b055603e3fd.png)
+Run the database seeder and you're done
 
-- With `--sf` (or) `--sort-files` : Shows files first, followed by directories
+    php artisan db:seed
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149071-6b379de4-bd25-11e7-8764-a0c577e526a1.png)
+***Note*** : It's recommended to have a clean database before seeding. You can refresh your migrations at any point to clean the database by running the following command
 
-- With `-t` : Sort by modification time, newest first (NEED TO ADD IMAGE)
+    php artisan migrate:refresh
+    
+## Docker
 
-- With color options : `--light` or `--dark` can be passed as a flag, to choose the appropriate color scheme. By default, the dark color scheme is chosen. In order to tweak any color, read [Custom configurations](#custom-configurations).
+To install with [Docker](https://www.docker.com), run following commands:
 
-### Combination of flags
+```
+git clone git@github.com:gothinkster/laravel-realworld-example-app.git
+cd laravel-realworld-example-app
+cp .env.example.docker .env
+docker run -v $(pwd):/app composer install
+cd ./docker
+docker-compose up -d
+docker-compose exec php php artisan key:generate
+docker-compose exec php php artisan jwt:generate
+docker-compose exec php php artisan migrate
+docker-compose exec php php artisan db:seed
+docker-compose exec php php artisan serve --host=0.0.0.0
+```
 
-- Using `--gs` with `-t` :
+The api can be accessed at [http://localhost:8000/api](http://localhost:8000/api).
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149076-8423c864-bd25-11e7-816e-8642643d2c27.png)
+## API Specification
 
-- Using `--gs` with `-l` :
+This application adheres to the api specifications set by the [Thinkster](https://github.com/gothinkster) team. This helps mix and match any backend with any other frontend without conflicts.
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149078-899b0622-bd25-11e7-9810-d398eaa77e32.png)
+> [Full API Spec](https://github.com/gothinkster/realworld/tree/master/api)
 
-- Using `--sd` with `-l` and `-A` :
+More information regarding the project can be found here https://github.com/gothinkster/realworld
 
-  ![image](https://user-images.githubusercontent.com/17109060/32149084-9eb2a416-bd25-11e7-8fb7-a9d336c6e038.png)
+----------
 
-- Using `--non-human-readable` with `-l` :
-  - This will print the file sizes in bytes (non-human readable format)
+# Code overview
 
-  ![image](https://user-images.githubusercontent.com/19269206/234581461-1e1fdd90-a362-4cea-ab82-5ca360746be8.png)
+## Dependencies
 
-# Installation
+- [jwt-auth](https://github.com/tymondesigns/jwt-auth) - For authentication using JSON Web Tokens
+- [laravel-cors](https://github.com/barryvdh/laravel-cors) - For handling Cross-Origin Resource Sharing (CORS)
 
-[(Back to top)](#table-of-contents)
+## Folders
 
-1. Install Ruby (preferably, version >= 2.6)
-2. [Download](https://www.nerdfonts.com/font-downloads) and install a Nerd Font. Have a look at the [Nerd Font README](https://github.com/ryanoasis/nerd-fonts/blob/master/readme.md) for installation instructions.
+- `app` - Contains all the Eloquent models
+- `app/Http/Controllers/Api` - Contains all the api controllers
+- `app/Http/Middleware` - Contains the JWT auth middleware
+- `app/Http/Requests/Api` - Contains all the api form requests
+- `app/RealWorld/Favorite` - Contains the files implementing the favorite feature
+- `app/RealWorld/Filters` - Contains the query filters used for filtering api requests
+- `app/RealWorld/Follow` - Contains the files implementing the follow feature
+- `app/RealWorld/Paginate` - Contains the pagination class used to paginate the result
+- `app/RealWorld/Slug` - Contains the files implementing slugs to articles
+- `app/RealWorld/Transformers` - Contains all the data transformers
+- `config` - Contains all the application configuration files
+- `database/factories` - Contains the model factory for all the models
+- `database/migrations` - Contains all the database migrations
+- `database/seeds` - Contains the database seeder
+- `routes` - Contains all the api routes defined in api.php file
+- `tests` - Contains all the application tests
+- `tests/Feature/Api` - Contains all the api tests
 
-    *Note for `iTerm2` users - Please enable the Nerd Font at iTerm2 > Preferences > Profiles > Text > Non-ASCII font > Hack Regular Nerd Font Complete.*
+## Environment variables
 
-    *Note for `HyperJS` users - Please add `"Hack Nerd Font"` Font as an option to `fontFamily` in your `~/.hyper.js` file.*
+- `.env` - Environment variables can be set in this file
 
-3. Install the [colorls](https://rubygems.org/gems/colorls/) ruby gem with `gem install colorls`
+***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
-    *Note for `rbenv` users - In case of load error when using `lc`, please try the below patch.*
+----------
 
-    ```sh
-    rbenv rehash
-    rehash
-    ```
+# Testing API
 
-4. Enable tab completion for flags by entering following line to your shell configuration file (`~/.bashrc` or `~/.zshrc`) :
-    ```bash
-    source $(dirname $(gem which colorls))/tab_complete.sh
-    ```
+Run the laravel development server
 
-5. Start using `colorls` :tada:
+    php artisan serve
 
-6. Have a look at [Recommended configurations](#recommended-configurations) and [Custom configurations](#custom-configurations).
+The api can now be accessed at
 
-# Recommended configurations
+    http://localhost:8000/api
 
-[(Back to top)](#table-of-contents)
+Request headers
 
-1. To add some short command (say, `lc`) with some flag options (say, `-l`, `-A`, `--sd`) by default, add this to your shell configuration file (`~/.bashrc`, `~/.zshrc`, etc.) :
-    ```sh
-    alias lc='colorls -lA --sd'
-    ```
+| **Required** 	| **Key**              	| **Value**            	|
+|----------	|------------------	|------------------	|
+| Yes      	| Content-Type     	| application/json 	|
+| Yes      	| X-Requested-With 	| XMLHttpRequest   	|
+| Optional 	| Authorization    	| Token {JWT}      	|
 
-2. For changing the icon(s) to other unicode icons of choice (select icons from [here](https://nerdfonts.com/)), change the YAML files in a text editor of your choice (say, `subl`)
+Refer the [api specification](#api-specification) for more info.
 
-    ```sh
-    subl $(dirname $(gem which colorls))/yaml
-    ```
-
-# Custom configurations
-
-[(Back to top)](#table-of-contents)
-
-You can overwrite the existing icons and colors mapping by copying the yaml files from `$(dirname $(gem which colorls))/yaml` into `~/.config/colorls`, and changing them.
-
-- To overwrite color mapping :
-
-  Please have a look at the [list of supported color names](https://github.com/sickill/rainbow#color-list). You may also use a color hex code as long as it is quoted within the YAML file and prefaced with a `#` symbol.
-
-  Let's say that you're using the dark color scheme and would like to change the color of untracked file (`??`) in the `--git-status` flag to yellow. Copy the defaut `dark_colors.yaml` and change it.
-
-  Check if the `~/.config/colorls` directory exists. If it doesn't exist, create it using the following command:
+----------
  
-  ```sh
-  mkdir -p ~/.config/colorls
-  ```
+# Authentication
+ 
+This applications uses JSON Web Token (JWT) to handle authentication. The token is passed with each request using the `Authorization` header with `Token` scheme. The JWT authentication middleware handles the validation and authentication of the token. Please check the following sources to learn more about JWT.
+ 
+- https://jwt.io/introduction/
+- https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
 
-  And then
+----------
 
-  ```sh
-  cp $(dirname $(gem which colorls))/yaml/dark_colors.yaml ~/.config/colorls/dark_colors.yaml
-  ```
-
-  In the `~/.config/colorls/dark_colors.yaml` file, change the color set for `untracked` from `darkorange` to `yellow`, and save the change.
-
-  ```
-  untracked: yellow
-  ```
-
-  Or, using hex color codes:
-
-  ```
-  untracked: '#FFFF00'
-  ```
-
-- To overwrite icon mapping :
-
-  Please have a look at the [list of supported icons](https://nerdfonts.com/). Let's say you want to add an icon for swift files. Copy the default `files.yaml` and change it.
-
-  ```sh
-  cp $(dirname $(gem which colorls))/yaml/files.yaml ~/.config/colorls/files.yaml`
-  ```
-
-  In the `~/.config/colorls/files.yaml` file, add a new icon / change an existing icon, and save the change.
-
-
-  ```
-  swift: "\uF179"
-  ```
-
-- User contributed alias configurations :
-
-  - [@rjhilgefort](https://gist.github.com/rjhilgefort/51ea47dd91bcd90cd6d9b3b199188c16)
-
-
-# Updating
-
-[(Back to top)](#table-of-contents)
-
-Want to update to the latest version of `colorls`?
-
-```sh
-gem update colorls
-```
-
-# Uninstallation
-
-[(Back to top)](#table-of-contents)
-
-Want to uninstall and revert back to the old style? No issues (sob). Please feel free to open an issue regarding how we can enhance `colorls`.
-
-```sh
-gem uninstall colorls
-```
-
-# Contributing
-
-[(Back to top)](#table-of-contents)
-
-Your contributions are always welcome! Please have a look at the [contribution guidelines](CONTRIBUTING.md) first. :tada:
-
-# License
-
-[(Back to top)](#table-of-contents)
-
-
-The MIT License (MIT) 2017 - [Athitya Kumar](https://github.com/athityakumar/). Please have a look at the [LICENSE.md](LICENSE.md) for more details.
+# Cross-Origin Resource Sharing (CORS)
+ 
+This applications has CORS enabled by default on all API endpoints. The default configuration allows requests from `http://localhost:3000` and `http://localhost:4200` to help speed up your frontend testing. The CORS allowed origins can be changed by setting them in the config file. Please check the following sources to learn more about CORS.
+ 
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+- https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+- https://www.w3.org/TR/cors
