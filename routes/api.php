@@ -10,4 +10,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('todo-lists/export-excel', [TodoListController::class, 'exportXls']);
+Route::get('todo-lists/chart', [TodoListController::class, 'chartData']);
 Route::apiResource('todo-lists', TodoListController::class);

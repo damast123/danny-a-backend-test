@@ -32,15 +32,22 @@ class TodoList extends Model
         return $query->where('priority', $priority);
     }
 
-    public static function getTodoList()
+    public static function getTodoList(array $select = ['*'])
     {
-        return self::select('title', 'assignee', 'due_date', 'time_tracked', 'status', 'priority')
+        return self::select($select)
             ->orderBy('due_date', 'desc');
     }
 
     public static function getFilteredTodoList($filters)
     {
-        return self::getTodoList()->filtered($filters)->get();
+        return self::getTodoList([
+            'title',
+            'assignee',
+            'due_date',
+            'time_tracked',
+            'status',
+            'priority'
+        ])->filtered($filters)->get();
     }
 
     public function scopeFiltered($query, $filters)
