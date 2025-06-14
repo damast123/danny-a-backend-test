@@ -7,9 +7,11 @@ use App\Models\TodoList;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreTodoListRequest;
 use App\Services\TodoListService;
 use App\Services\ReturnResponse;
+use App\Exports\TodoListsExport;
 
 class TodoListController extends Controller
 {
@@ -27,6 +29,15 @@ class TodoListController extends Controller
     public function index()
     {
         //
+    }
+
+    public function exportXls(Request $request)
+    {
+      $date = $this->todoListService->setDate();
+
+      $filters = $request->only(['title', 'assignee', 'due_start', 'due_end', 'time_min', 'time_max', 'status', 'priority']);
+
+      return Excel::download(new TodoListsExport($filters), "todo_lists_{$date}.xls", \Maatwebsite\Excel\Excel::XLS);
     }
 
     /**
